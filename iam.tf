@@ -27,7 +27,29 @@ resource"aws_s3_bucket""s"{
 	bucket="ssv-bucket"
 }
 
-resource "aws_iam_policy" "s3_policy"{
+
+resource "aws_s3_bucket_policy""bp"{
+	bucket= aws_s3_bucket.s.id
+
+	policy = <<EOF
+{
+	"version": "2021-08-06",
+	"Statement": [
+	{
+	    "Sid": "AllowIPmix",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::ssv-bucket/*"
+        }
+       ]
+}
+EOF
+
+}
+
+
+resource "aws_iam_policy" "s3policy"{
 	name = "s3_policy"
 
 	policy = <<EOF
@@ -44,7 +66,10 @@ resource "aws_iam_policy" "s3_policy"{
 	EOF
 }
 
+
 resource"aws_iam_group_policy_attachment""s3_attachment"{
 	group = aws_iam_group.group.name
-	policy_arn = aws_iam_policy.s3_policy.arn
+	policy_arn = aws_iam_policy.s3policy.arn
 }
+
+
