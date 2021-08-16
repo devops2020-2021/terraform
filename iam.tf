@@ -1,8 +1,8 @@
 
 provider"aws"{
         region="us-east-2"
-        access_key="AKIAZT7N25P22S5WO5MM"
-        secret_key="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"
+        access_key="AKIAZT7N25P2QPBDZI7G"
+        secret_key="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"
 }
 
 resource"aws_iam_user""sshan_user"{
@@ -22,32 +22,6 @@ resource"aws_iam_group_membership""team"{
 
 	group=aws_iam_group.group.name
 }
-
-resource"aws_s3_bucket""s"{
-	bucket="ssv-bucket"
-}
-
-
-resource "aws_s3_bucket_policy""bp"{
-	bucket= aws_s3_bucket.s.id
-
-	policy = <<EOF
-{
-	"version": "2021-08-06",
-	"Statement": [
-	{
-	    "Sid": "AllowIPmix",
-            "Effect": "Allow",
-            "Principal": "*",
-            "Action": "s3:*",
-            "Resource": "arn:aws:s3:::ssv-bucket/*"
-        }
-       ]
-}
-EOF
-
-}
-
 
 resource "aws_iam_policy" "s3policy"{
 	name = "s3_policy"
